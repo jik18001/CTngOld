@@ -16,17 +16,16 @@ import (
 	 View The Go function translations here:
 	 https://github.com/herumi/bls-go-binary/blob/master/bls/bls.go*/
 type BLSThresholdSignatures interface {
-	GenerateThresholdKeypairs([]CTngID, int) (BlsPublicMap, BlsPrivateMap, error)
+	GenerateThresholdKeypairs([]CTngID, int) ([]bls.ID, BlsPublicMap, BlsPrivateMap, error)
 	ThresholdSign(msg string, secret bls.SecretKey) (SigFragment, error)
 	ThresholdAggregate([]SigFragment, int) (ThresholdSig, error)
 	VerifyAggregate(msg string, fragments []SigFragment, config *CryptoConfig) error
 }
 
-// Generate mappings of IDs to Private Keys and Public Keys Based on a config's parameters.
-// threshold is used to determine the "k" in "k of n" threshold signatures.
-func GenerateThresholdKeypairs(entities []CTngID, threshold int) (BlsPublicMap, BlsPrivateMap, error) {
+// Generate mappings of IDs to Private Keys and Public Keys Based on a config's parameters
+func GenerateThresholdKeypairs(entities []CTngID, threshold int) ([]bls.ID, BlsPublicMap, BlsPrivateMap, error) {
 	if threshold < 2 {
-		return nil, nil, errors.New("Threshold must be greater than 1")
+		return nil, nil, nil, errors.New("Threshold must be greater than 1")
 	}
 	//ids for n entities
 	n := len(entities)
@@ -56,7 +55,7 @@ func GenerateThresholdKeypairs(entities []CTngID, threshold int) (BlsPublicMap, 
 	}
 	// None of the above functions return errors. Instead they panic.
 	// If cryptography information fails to generate then we cannot proceed.
-	return pubs, privs, nil
+	return ids, pubs, privs, nil
 }
 
 // ThresholdSign will generate a signature fragment for the given message.
@@ -69,7 +68,7 @@ func ThresholdSign(msg string, sec *bls.SecretKey, SelfID CTngID) SigFragment {
 	}
 }
 
-// Aggregate [threshold] Signature fragments into a ThresholdSig.
+// Aggregate signature Fragments into a ThresholdSig.
 func ThresholdAggregate(sigs []SigFragment, threshold int) (ThresholdSig, error) {
 	var aggregate = ThresholdSig{
 		IDs:  make([]CTngID, threshold),
@@ -90,8 +89,7 @@ func ThresholdAggregate(sigs []SigFragment, threshold int) (ThresholdSig, error)
 	return aggregate, nil
 }
 
-// Verify an aggregated threshold signature against the message and public key mapping.
-// Note that the public keys of all signers must be contained in the public map.
+// Verify an aggregated threshold signature against the message and the public keys
 func (sig ThresholdSig) Verify(msg string, pubs *BlsPublicMap) bool {
 	// Construct the list of public keys
 	pubList := make([]bls.PublicKey, len(sig.IDs))
@@ -102,15 +100,13 @@ func (sig ThresholdSig) Verify(msg string, pubs *BlsPublicMap) bool {
 	return sig.Sign.FastAggregateVerify(pubList, []byte(msg))
 }
 
-// Given a message and a public key mapping, verify the signature is valid.
+// Given a message and a public key mapping, verify the signature runs.
 func (f SigFragment) Verify(msg string, pubs *BlsPublicMap) bool {
 	pub := (*pubs)[f.ID]
 	return (f.Sign).Verify(&pub, msg)
 }
 
-//init runs when the package is imported to other functions.
 func init() {
 	// The init function needs to be immediately called upon import.
-	//This sets up global variables and random number generators I believe.
 	bls.Init(bls.BLS12_381)
 }

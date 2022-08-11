@@ -1,9 +1,5 @@
 package crypto
 
-/*
-Code Ownership:
-Finn - All Tests+Functions
-*/
 import (
 	"encoding/hex"
 	"fmt"
@@ -19,7 +15,6 @@ func shuffleSigs(sigs *[]SigFragment) {
 	})
 }
 
-// Shortened version of a repeated block of code.
 func confirmNil(t *testing.T, err error) {
 	if err != nil {
 		t.Errorf("%s", err.Error())
@@ -28,7 +23,6 @@ func confirmNil(t *testing.T, err error) {
 
 /*
 Referenced test certificate-transparency-go/tls/hash_test.go
-This test was used when learning how to use the tests and go.
 */
 func TestMD5(t *testing.T) {
 	// Our tests are a list of structs with the following properties:
@@ -91,21 +85,20 @@ func TestBLSFunctionality(T *testing.T) {
 	threshold := 2
 
 	// First term is list of BLS ids. We now derive the BLS ids from the CTngIDs, so it can be ignored.
-	pubs, privs, err := GenerateThresholdKeypairs(entities, threshold)
+	_, pubs, privs, err := GenerateThresholdKeypairs(entities, threshold)
 
 	confirmNil(T, err)
 
-	// get space for all the signatures
 	sigs := make([]SigFragment, n)
 
 	data := "Test information for signing"
 	wrongData := "Incorrect Information"
 
-	// Have all entities sign the data message
+	// Have all entities sign the message
 	for i := 0; i < n; i++ {
 		priv := privs[entities[i]]
 		sigs[i] = ThresholdSign(data, &priv, entities[i])
-		//This code will panic() if it fails, not return an error.
+		//secret.Sign will panic() if it fails, not return an error.
 	}
 
 	// Verify individual signatures validate

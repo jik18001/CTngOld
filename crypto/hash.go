@@ -1,14 +1,8 @@
 package crypto
 
-/*
-Code Ownership:
-Finn - Copied functions from certificate-transparency-go/tls
-
-This was the first code made in the project, so note that we were still
-learning go at the time of writing. :-)
-*/
-
 import (
+	"CTng/revocator"
+	"CTng/util"
 	"crypto"
 	_ "crypto/md5"    // For registration side-effect
 	_ "crypto/sha1"   // For registration side-effect
@@ -22,8 +16,7 @@ type HashInterface interface {
 	GenerateSHA256(msg []byte) ([]byte, error)
 }
 
-// Function pulled from certificate-transparency-go/tls.
-// Copied here instead of imported because it isn't defined as "external" in their repo (it is a lowercase function).
+// Function pulled from certificate-transparency-go/tls. Copied because it isn't defined as external in their repo.
 func generateHash(algo HashAlgorithm, data []byte) ([]byte, crypto.Hash, error) {
 	var hashType crypto.Hash
 	switch algo {
@@ -50,14 +43,23 @@ func generateHash(algo HashAlgorithm, data []byte) ([]byte, crypto.Hash, error) 
 	return hasher.Sum([]byte{}), hashType, nil
 }
 
-// Generates the MD5 hash for the given byte array.
+// Generates the MD5 hash for the given bits.
 func GenerateMD5(data []byte) ([]byte, error) {
 	hash, _, err := generateHash(MD5, data)
 	return hash, err
 }
 
-// Generates the SHA256 hash for the given byte array.
+// Generates the SHA256 hash for the given bits.
 func GenerateSHA256(data []byte) ([]byte, error) {
 	hash, _, err := generateHash(SHA256, data)
 	return hash, err
+}
+
+func GenerateHashOnVectors(crvs []*revocator.Revocator) ([]byte, error) {
+	var union_of_vectors []byte
+	for i, _ := range crvs {
+		union_of_vectors = append(union_of_vectors, util.BitsToBytes((*crvs[i]).GetVector())...)
+	}
+	fmt.Println("local revocators: ", union_of_vectors)
+	return GenerateSHA256(union_of_vectors)
 }

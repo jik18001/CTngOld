@@ -1,10 +1,5 @@
 package crypto
 
-/*
-Code Ownership:
-Finn - Created all Methods
-*/
-
 import "errors"
 
 // CryptoConfig Method Versions of all crypto functions.

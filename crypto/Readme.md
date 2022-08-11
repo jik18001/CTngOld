@@ -22,9 +22,3 @@ The following tests are included:
 1. Hash function test
 2. K-of-n BLS key generation + signing/verifying with different subsets
 3. IO function tests: Writes and then reads a cryptoconfig and verifies functionality
-
-
-## Code Owners
-- Finn is responsible for designing and programming all the code in this package. 
-
-##### Readme written by Finn

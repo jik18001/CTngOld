@@ -1,10 +1,5 @@
 package crypto
 
-/*
-Code Ownership:
-Finn - All Functions
-*/
-
 import (
 	"CTng/util"
 	"crypto/rsa"
@@ -20,23 +15,21 @@ type CryptoStorage interface {
 
 // Generate a list of cryptoconfigs from a list of entity names.
 // The threshold determines the k value in "k-of-n" threshold signing.
-// Every entity configuration is given a bls keypair and an rsa keypair.
-// Currently, entities such as Loggers and CAs (which only sign with rsa)
-// need to have their keypairs manually copy-pasted into the config mappings.
 func GenerateEntityCryptoConfigs(entityIDs []CTngID, threshold int) ([]CryptoConfig, error) {
-	// Define some CTng Constant values
 	ThresholdScheme := "bls"
 	SignScheme := "rsa"
 	HashScheme := SHA256
 	configs := make([]CryptoConfig, len(entityIDs))
 
 	// Generate Threshold Keys
-	blsPubMap, blsPrivMap, err := GenerateThresholdKeypairs(entityIDs, threshold)
+	_, blsPubMap, blsPrivMap, err := GenerateThresholdKeypairs(entityIDs, threshold)
 	if err != nil {
 		panic(err)
 	}
 
-	// Generate RSA Keys for each entity and populate the mappings with them.
+	// Map entity identifiers to given BLS IDs
+
+	// Generate RSA Keys
 	rsaPrivMap := make(map[CTngID]rsa.PrivateKey)
 	rsaPubMap := make(RSAPublicMap)
 	for _, entity := range entityIDs {
@@ -49,7 +42,7 @@ func GenerateEntityCryptoConfigs(entityIDs []CTngID, threshold int) ([]CryptoCon
 		rsaPubMap[entity] = pub
 	}
 
-	//Generate configs, assigning a different entityId to each config.
+	//Generate configs without individual information
 	for i := range configs {
 		configs[i] = CryptoConfig{
 			ThresholdScheme:    ThresholdScheme,
@@ -67,11 +60,11 @@ func GenerateEntityCryptoConfigs(entityIDs []CTngID, threshold int) ([]CryptoCon
 	return configs, nil
 }
 
-// Saves a list of cryptoconfigs to files in a given.
-// Each file is named the SelfID of the corresponding config.
+// Saves a list of cryptoconfigs to files in a directory.
+// Each file is named the ID of the corresponding entity.
 func SaveCryptoFiles(directory string, configs []CryptoConfig) error {
 	for _, config := range configs {
-		// Sets the name to the ID of the entity using C-like printf.
+		// fmt.Print(config)
 		file := fmt.Sprintf("%s/%s.test.json", directory, config.SelfID)
 		err := util.WriteData(file, *NewStoredCryptoConfig(&config))
 		if err != nil {
@@ -81,7 +74,7 @@ func SaveCryptoFiles(directory string, configs []CryptoConfig) error {
 	return nil
 }
 
-// Read a Storedcryptoconfig from a file, convert it to a usable cryptoconfig and return a pointer to it.
+// Read a storedcryptoconfig from a file, convert it to a cryptoconfig and return a pointer to it.
 func ReadCryptoConfig(file string) (*CryptoConfig, error) {
 	scc := new(StoredCryptoConfig)
 	bytes, err := util.ReadByte(file)
@@ -93,8 +86,19 @@ func ReadCryptoConfig(file string) (*CryptoConfig, error) {
 	return cc, err
 }
 
+// Read a stored basic crypto config from a file, convert it to a basiccryptoconfig and return a pointer to it.
+func ReadBasicCryptoConfig(file string) (*CryptoConfig, error) {
+	scc := new(StoredCryptoConfig)
+	bytes, err := util.ReadByte(file)
+	json.Unmarshal(bytes, scc)
+	if err != nil {
+		return nil, err
+	}
+	cc, err := NewBasicCryptoConfig(scc)
+	return cc, err
+}
+
 // Converts a CryptoConfig to a marshal-able format.
-// This serializes any neccessary fields in the process.
 func NewStoredCryptoConfig(c *CryptoConfig) *StoredCryptoConfig {
 	scc := new(StoredCryptoConfig)
 	scc = &StoredCryptoConfig{
@@ -112,9 +116,8 @@ func NewStoredCryptoConfig(c *CryptoConfig) *StoredCryptoConfig {
 	return scc
 }
 
-// Creates a cryptoconfig from a stored one.
-// This is used for reading a stored file cryptoconfig.
-// Deserializes any neccessary fields.
+// Creates a cryptoconfig from a stored one. This is used for reading a stored file cryptoconfig.
+// Returns a pointer to the new config.
 func NewCryptoConfig(scc *StoredCryptoConfig) (*CryptoConfig, error) {
 	c := new(CryptoConfig)
 	c = &CryptoConfig{
@@ -135,6 +138,24 @@ func NewCryptoConfig(scc *StoredCryptoConfig) (*CryptoConfig, error) {
 	err = (&c.ThresholdSecretKey).Deserialize(scc.ThresholdSecretKey)
 	if err != nil {
 		return c, err
+	}
+	return c, nil
+}
+
+// Creates a cryptoconfig from a stored one. This is used for reading a stored file cryptoconfig.
+// Returns a pointer to the new config.
+func NewBasicCryptoConfig(scc *StoredCryptoConfig) (*CryptoConfig, error) {
+	c := new(CryptoConfig)
+	c = &CryptoConfig{
+		Threshold:          0,
+		N:                  0,
+		SignScheme:         scc.SignScheme,
+		ThresholdScheme:    "",
+		HashScheme:         HashAlgorithm(scc.HashScheme),
+		SelfID:             scc.SelfID,
+		RSAPrivateKey:      scc.RSAPrivateKey,
+		SignaturePublicMap: scc.SignaturePublicMap,
+		ThresholdPublicMap: nil,
 	}
 	return c, nil
 }
