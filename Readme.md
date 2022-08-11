@@ -32,10 +32,14 @@ ___
 Run `go install .` before continuing!
 
 To run:
-**`a logger`**  sh ./loggertest.sh [loggerID] 
-**`a monitor`** sh ./monitortest.sh [MonitorID]
-**`a gossiper`** sh ./gossipertest.sh [GossiperID]
-**`a CA`**  sh ./CA.sh [Certificate Authority ID]
+
+**`a logger`**  sh ./loggertest.sh [loggerID]  
+
+**`a monitor`** sh ./monitortest.sh [MonitorID]  
+
+**`a gossiper`** sh ./gossipertest.sh [GossiperID]  
+
+**`a CA`**  sh ./CA.sh [Certificate Authority ID]  
 
 The `testData` folder contains configurations for testing, but configs can be generated using the functions in `config`.
 
@@ -50,4 +54,4 @@ If you're having trouble viewing function descriptions and/or go language test i
 ### Licensing
 Both imports we use, gorilla/mux and herumi/bls-go-binary, use an OpenBSD 3-clause license. as a result, we use the same Please see LICENSE in the outer folder for details.
 
-##### Written By Finn
+##### Written By Finn and Jie
