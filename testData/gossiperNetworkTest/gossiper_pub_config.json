@@ -1,0 +1,11 @@
+{
+  "Communication_delay": 50,
+	"Max_push_size": 3000,
+  "Period_interval": 10,
+	"Expiration_time": 86400,
+	"Port": "22",
+	"Gossiper_URLs": ["localhost:8080","localhost:8081", "localhost:8082", "localhost:8083"],
+	"Signer_URLs": ["localhost:8080","localhost:8081", "localhost:8082","localhost:8083",
+                  "localhost:9000","localhost:9001","localhost:9002","localhost:9003",
+                  "localhost:9100","localhost:9101","localhost:9102","localhost:9103"]
+}
