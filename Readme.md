@@ -19,13 +19,6 @@
 
 **`testData`**: Defines a configuration of CTng with 4 monitors, 4 gossipers, 3 CAs, and 3 Loggers. Also defines a fakeLogger and fakeCA HTTP client for testing.
 ___
-## Files
-
-**`ctng.go`**: A commandline interface for running a Monitor, Gossiper, fakeLogger, or fakeCA.
-
-**`monitorTest.sh`**: run as `sh monitorTest.sh [N]`, where N is which # monitor you want to run from the testData folder
-
-**`gossiperTest.sh`**: run as `sh gossiperTest.sh [N]`, where N is which # monitor you want to run from the testData folder
 
 # Running the code
 
