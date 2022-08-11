@@ -31,11 +31,11 @@ ___
 
 Run `go install .` before continuing!
 
-To run a logger/CA/monitor/gossiper:
-sh ./loggertest.sh [loggerID] 
-sh ./monitortest.sh [MonitorID]
-sh ./gossipertest.sh [GossiperID]
-sh ./CA.sh [Certificate Authority ID]
+To run:
+**a logger**  sh ./loggertest.sh [loggerID] 
+**a monitor** sh ./monitortest.sh [MonitorID]
+**a gossiper** sh ./gossipertest.sh [GossiperID]
+**a CA**  sh ./CA.sh [Certificate Authority ID]
 
 The `testData` folder contains configurations for testing, but configs can be generated using the functions in `config`.
 
