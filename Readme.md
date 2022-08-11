@@ -31,14 +31,11 @@ ___
 
 Run `go install .` before continuing!
 
-To run a single Monitor or gossiper, run 
-
-`go run . [gossiper|monitor|logger] [public_config_path] [private_config_path] [crypto_config_path]`.
-
-E.X: `go run . gossiper ./public.json private.json crypto.json`
-
-To run a fakeLogger or fakeCA, run 
-`go run . [logger|ca] [configPath]`
+To run a logger/CA/monitor/gossiper:
+sh ./loggertest.sh [loggerID] 
+sh ./monitortest.sh [MonitorID]
+sh ./gossipertest.sh [GossiperID]
+sh ./CA.sh [Certificate Authority ID]
 
 The `testData` folder contains configurations for testing, but configs can be generated using the functions in `config`.
 
