@@ -1,0 +1,7 @@
+{
+    "Signer": "localhost:9100",
+    "Crypto_config_path": "testData/caNetworkTest/1/caCrypto.json",
+    "CA_URLs": ["localhost:9100"],
+    "Logger_URLs": ["localhost:9000", "localhost:9001"],
+    "Port": "9100"
+}
