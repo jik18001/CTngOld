@@ -1,11 +1,5 @@
 package config
 
-/*
-Code Ownership:
-Isaac - Responsible for tests
-Finn - Helped with review+code refactoring, also added last test func
-*/
-
 import (
 	crypto "CTng/crypto"
 	"fmt"

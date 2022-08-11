@@ -11,6 +11,3 @@
 
 ## config_test.go
 This tests that the information is populated correctly. Given the json files inside the folder /test, it will read and populate the respective structs
-
-
-##### Readme Written by Isaac

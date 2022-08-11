@@ -1,10 +1,5 @@
 package config
 
-/*
-Code Ownership:
-Isaac - Responsible for functions
-Finn - Helped with review+code refactoring
-*/
 import (
 	crypto "CTng/crypto"
 	"encoding/json"
@@ -48,6 +43,36 @@ func LoadMonitorConfig(publicpath string, privatepath string, cryptopath string)
 	LoadConfiguration(c_pub, publicpath)
 	c.Public = c_pub
 	crypto, err := crypto.ReadCryptoConfig(cryptopath)
+	c.Crypto = crypto
+	if err != nil {
+		return *c, err
+	}
+	return *c, nil
+}
+
+//Identical to above, but for the ca.
+func LoadCAConfig(publicpath string, privatepath string, cryptopath string) (CA_config, error) {
+	c := new(CA_config)
+	c_pub := new(CA_public_config)
+	LoadConfiguration(c, privatepath)
+	LoadConfiguration(c_pub, publicpath)
+	c.Public = c_pub
+	crypto, err := crypto.ReadBasicCryptoConfig(cryptopath)
+	c.Crypto = crypto
+	if err != nil {
+		return *c, err
+	}
+	return *c, nil
+}
+
+//Identical to above, but for the logger.
+func LoadLoggerConfig(publicpath string, privatepath string, cryptopath string) (Logger_config, error) {
+	c := new(Logger_config)
+	c_pub := new(Logger_public_config)
+	LoadConfiguration(c, privatepath)
+	LoadConfiguration(c_pub, publicpath)
+	c.Public = c_pub
+	crypto, err := crypto.ReadBasicCryptoConfig(cryptopath)
 	c.Crypto = crypto
 	if err != nil {
 		return *c, err

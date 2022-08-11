@@ -1,12 +1,8 @@
 package config
 
-/*
-Code Ownership:
-Isaac - Responsible for all structs
-Finn - Helped with review+code refactoring
-*/
 import (
 	"CTng/crypto"
+	"math/big"
 )
 
 // The structs that are read/written to files.
@@ -16,6 +12,7 @@ type Monitor_public_config struct {
 	Gossip_wait_time int
 	MMD              int
 	MRD              int
+	Length           uint64 // max size of revocators
 	Http_vers        []string
 }
 
@@ -32,6 +29,7 @@ type Monitor_config struct {
 	Crypto_config_location string
 	CA_URLs                []string
 	Logger_URLs            []string
+	Signer                 string
 	Gossiper_URL           string
 	Inbound_gossiper_port  string
 	Port                   string
@@ -64,4 +62,47 @@ type Config_Input struct {
 	// Gossipers, for now, can be set to communicate on
 	// the same local network as the monitor.
 	Default_Gossiper_Port string
+}
+
+type CA_public_config struct {
+	All_CA_URLs     []string
+	All_Logger_URLs []string
+	MMD             int
+	MRD             int
+	Http_vers       []string
+	Length          uint64 // max size of revocators
+	NormalizeNumber big.Int
+}
+
+type CA_config struct {
+	Crypto_config_location string
+	Logger_URLs            []string
+	Signer                 string
+	Port                   string
+	Crypto                 *crypto.CryptoConfig
+	Public                 *CA_public_config
+}
+
+type Logger_public_config struct {
+	All_CA_URLs     []string
+	All_Logger_URLs []string
+	MMD             int
+	MRD             int
+	Http_vers       []string
+	Length          uint64 // max size of revocators
+}
+
+type Logger_config struct {
+	Crypto_config_location string
+	CA_URLs                []string
+	Signer                 string
+	Port                   string
+	Crypto                 *crypto.CryptoConfig
+	Public                 *Logger_public_config
+	// MisbehaviorInterval    int
+	// LoggerType             int
+	// LoggerType:
+	//  1. Normal, behaving Logger (default)
+	//  2. Split-World (Two different STHS on every MisbehaviorInterval MMD)
+	//  3. Disconnecting Logger (unresponsive every MisbehaviorInterval MMD)
 }
