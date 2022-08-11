@@ -10,3 +10,9 @@ const (
 	BLUE   = "\x1b[34m"
 	RESET  = "\x1b[0m"
 )
+
+type OutOfBounds struct{}
+
+func (e *OutOfBounds) Error() string {
+	return "Index Out of Bounds"
+}

@@ -1,10 +1,5 @@
 package util
 
-/*
-Code Ownership:
-Jie - All functions
-*/
-
 import (
 	"encoding/json"
 	"io/ioutil"
