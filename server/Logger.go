@@ -1,18 +1,12 @@
 package server
 
 /*
-Code Ownership:
-Marcus - Function and object definitions.
-
-___
-For now, this file represents the functionality required of a ctng logger.
-It should be implemented in the future. Currently, we utilize fakelogger (in the testData folder) for testing.
-
-*/
-
 import (
 	"net/http"
 )
+
+For now, this file represents the functionality required of a ctng logger.
+It should be implemented in the future. For now, we utilize fakelogger (in the testData folder) for testing.
 
 // Struct for JSON STH object
 type STH struct {
@@ -40,3 +34,4 @@ type logger interface {
 	// ctng/v1/get-entries/{date}
 	returnEntries(w http.ResponseWriter, r *http.Request)
 }
+*/

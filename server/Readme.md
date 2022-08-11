@@ -12,11 +12,12 @@
 - `homePage`: base page of gossiper 
 - The remaining functions are tailored towards handling different gossip requests such as POST and GET requests. The gossiper server start function is also contained in this file. 
 
+
 ## Monitor_server.go
-- Contains Stubs of get functions for: `STH, Revocation(s), and POM` for requests from relying parties.
-- Receive functions for `POM` from relying party.
-- Handle functions for: `Gossip` from gossiper
-- After running `StartMonitorServer` the monitor will listen for requests by running `initializeMonitorEndpoints`, then it runs the respective functions to handle the types of request listed above. 
+- Contains Get functions for: `STH, Revocation(s), and POM`. 
+- Receive functions for: `Gossip(object) and POM`.
+- Handle functions for: `Gossip`
+- After running `StartMonitorServer` the monitor will listen for requests by running `handleMonitorRequests`, then it runs the respective functions to handle the types of request listed above. 
 
 ## Logger.go
 - This file represents the functionality of a CTng logger. Currently we use a fakelogger but this file is the skeleton for what a logger in CTng should look like. 
@@ -25,12 +26,4 @@
 ## helpers.go
 - `gossipIDFromParams`: Gets and returns the Gossip_object_ID if it's valid, error if not. Gossip_object_ID is a struct which contains the values: application, type, signer, and period of a gossip object.
 - `getSenderURL`: This gets and returns the senderURL, we use this in several functions to show where objects come from (valid, invalid, dups). 
-- `isOwner`: Boolean function that returns true if the ownerURL matches the parsedURL, false if not. This is used in Gossip_server to verify if the sender is an owner. The implementation is not perfect, and could be changed in the future.
-
-## CodeOwners:
-- Marcus created all initial server definitions
-- Finn, Marcus, and Jie implemented most of these functions, a breakdown is availble in each of these files.
-
-Individual Function breakdowns are available in each file.
-
-##### Written By Isaac
+- `isOwner`: Boolean function that returns true if the ownerURL matches the parsedURL, false if not. This is used in Gossip_server to verify if the sender is an owner.
