@@ -13,6 +13,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
+var GossiperServerType int
 type Gossiper interface {
 
 	// Response to entering the 'base page' of a gossiper.
@@ -69,8 +70,10 @@ func handleRequests(c *gossip.GossiperContext) {
 	gorillaRouter.HandleFunc("/gossip/get-data", bindContext(c, handleGossipObjectRequest)).Methods("GET")
 
 	// Monitor interaction endpoint
-	gorillaRouter.HandleFunc("/gossip/gossip-data", bindContext(c, handleOwnerGossip)).Methods("POST")
-
+	if GossiperServerType == 2{
+		gorillaRouter.HandleFunc("/gossip/gossip-data", bindContext(c, handleOwnerGossip)).Methods("POST")}else{
+		gorillaRouter.HandleFunc("/gossip/gossip-data", bindContext(c, handleGossip)).Methods("POST")
+	}
 	// Start the HTTP server.
 	http.Handle("/", gorillaRouter)
 	fmt.Println(util.BLUE+"Listening on port:", c.Config.Port, util.RESET)
@@ -194,6 +197,13 @@ func handleOwnerGossip(c *gossip.GossiperContext, w http.ResponseWriter, r *http
 	}
 }
 
+func getGossiperServerType() {
+	fmt.Println("Which mode of Goissper server do you want to start?")
+	fmt.Println("1. local host testing environment, Assume benigh monitor-gossiper connection")
+	fmt.Println("2. NTTP mode")
+	fmt.Scanln(&GossiperServerType)
+}
+
 func StartGossiperServer(c *gossip.GossiperContext) {
 	// Check if the storage file exists in this directory
 	err := c.LoadStorage()
@@ -215,7 +225,8 @@ func StartGossiperServer(c *gossip.GossiperContext) {
 	c.Client = &http.Client{
 		Transport: tr,
 	}
-
+	GossiperServerType = 2
+	getGossiperServerType()
 	// HTTP Server Loop
 	handleRequests(c)
 }
