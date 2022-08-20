@@ -32,7 +32,7 @@ To run on WSL2:
 
 **`a gossiper`**: sh gossiperTest.sh [GossiperID]  
 
-**`a CA`**:  sh ./CATest.sh [Certificate Authority ID]  
+**`a CA`**:  sh CATest.sh [Certificate Authority ID]  
 
 The `testData` folder contains configurations for testing, but configs can be generated using the functions in `config`.
 
