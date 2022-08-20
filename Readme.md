@@ -24,13 +24,13 @@ ___
 
 Run `go install .` before continuing!
 
-To run:
+To run on WSL2:
 
-**`a logger`**:  sh ./loggerTest.sh [loggerID]  
+**`a logger`**:  sh loggerTest.sh [loggerID]  
 
-**`a monitor`**: sh ./monitorTest.sh [MonitorID]  
+**`a monitor`**: sh monitorTest.sh [MonitorID]  
 
-**`a gossiper`**: sh ./gossiperTest.sh [GossiperID]  
+**`a gossiper`**: sh gossiperTest.sh [GossiperID]  
 
 **`a CA`**:  sh ./CATest.sh [Certificate Authority ID]  
 
