@@ -21,7 +21,8 @@
 ___
 
 # Running the code
-**Note: CA,Logger, and revocator folder will not be used for the network test**    
+**Note: CA,Logger, and revocator folder will not be used for the network test**  
+  
 Run `go install .` before continuing!
 
 To run on WSL2:
