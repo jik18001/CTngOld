@@ -42,8 +42,6 @@ Documentation + Function descriptions exist in each file/subfolder.
 
 To view this this info + documentation in a formal documentation setting, GoDoc could be utilized, but requires installing the repository locally as a package.
 
-If you're having trouble viewing function descriptions and/or go language test in your IDE when opening this repository, try opening the CTng folder with your IDE instead of the outer SDP--PKI--CyberSec folder.
-
 ### Licensing
 Both imports we use, gorilla/mux and herumi/bls-go-binary, use an OpenBSD 3-clause license. as a result, we use the same Please see LICENSE in the outer folder for details.
 
