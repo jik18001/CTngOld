@@ -182,6 +182,9 @@ func StartMonitorServer(c *monitor.MonitorContext) {
 	c.Client = &http.Client{
 		Transport: tr,
 	}
+	//initialize the accusation map and pom map for the monitor
+	c.HasAccused = make(map[string]bool)
+	c.HasPom = make(map[string]bool)
 	// Run a go routine to handle tasks that must occur every MMD
 	go monitor.PeriodicTasks(c)
 	// Start HTTP server loop on the main thread

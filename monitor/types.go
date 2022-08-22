@@ -20,7 +20,7 @@ type MonitorContext struct {
 	// Currently, if a monitor accuses two entities in the same Period, it will trigger a gossip PoM.
 	// Therefore, a monitor can only accuse once per Period. I believe this is a temporary solution.
 	HasPom     map[string]bool
-	HasAccused bool
+	HasAccused map[string]bool
 	Verbose    bool
 	Client     *http.Client
 }
