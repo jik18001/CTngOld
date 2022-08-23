@@ -35,6 +35,9 @@ To run on WSL2:
 
 **`a CA`**:  sh CATest.sh [Certificate Authority ID]  
 
+**The test data includes 3 CAs, 3 loggers, 4 monitors, 4 gossipers**
+The network connection is described in the following section
+
 # Monitor Network
 
 Each monitor number is connected to its corresponding gossiper number
