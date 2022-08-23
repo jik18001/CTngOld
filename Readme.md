@@ -35,6 +35,17 @@ To run on WSL2:
 
 **`a CA`**:  sh CATest.sh [Certificate Authority ID]  
 
+# Monitor Network Configuration
+
+Each monitor number is connected to its corresponding gossiper number
+
+Monitors are responsible for the "FakeCAs" and "FakeLoggers" (see those folders for info) as follows:
+
+* 1 - logger1,logger2,CA1
+* 2 - logger2, logger3, CA2
+* 3 - logger1, logger3, CA1, CA3
+* 4 - logger2, CA2, CA3
+
 The `testData` folder contains configurations for testing, but configs can be generated using the functions in `config`.
 
 
