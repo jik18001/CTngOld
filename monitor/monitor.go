@@ -1,19 +1,5 @@
 package monitor
 
-/*
-Code Owners
-Marcus
-	- Initial QueryLoggers and QueryAuthorities functions
-	-
-Finn
-	- Revisions and comments to QueryLoggers + QueryAuthorities
-	- AccuseEntity
-	- IsLogger + IsAuthority
-	- PeriodicTasks
-Jie
-	- Send_to_gossiper
-*/
-
 import (
 	"CTng/gossip"
 	"CTng/util"
@@ -230,7 +216,7 @@ func PeriodicTasks(c *MonitorContext) {
     fmt.Println(util.GREEN + "Querying CAs" + util.RESET)
 	QueryAuthorities(c)
 
-	c.SaveStorage()
+	c.Saveall()
 	// TODO: Switch storage directory to a new folder for the next day's STHs.
 	// However, we also still need to accept STH_FULL and REV_FULL for the previous day's data. maybe we need storage for the previous day too?
 	// not sure.

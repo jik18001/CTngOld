@@ -163,8 +163,16 @@ func handle_gossip(c *monitor.MonitorContext, w http.ResponseWriter, r *http.Req
 	http.Error(w, "Gossip object Processed.", http.StatusOK)
 }
 
+func InitializeMonitorStorage(c *monitor.MonitorContext){
+	c.StorageDirectory = "testData/monitordata"
+	c.StorageFile = "monitor_data.json"
+	c.StorageFile_accusations = "accusations.json"
+	c.StorageFile_PoMs = "PoMs.json"
+}
+
 func StartMonitorServer(c *monitor.MonitorContext) {
 	// Check if the storage file exists in this directory
+	InitializeMonitorStorage(c)
 	err := c.LoadStorage()
 
 	if err != nil {

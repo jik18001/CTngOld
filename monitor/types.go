@@ -12,6 +12,8 @@ type MonitorContext struct {
 	Config      *config.Monitor_config
 	Storage     *gossip.Gossip_Storage
 	StorageFile string
+	StorageFile_accusations string
+	StorageFile_PoMs string
 	// TODO: Utilize Storage directory: A folder for the files of each MMD.
 	// Folder should be set to the current MMD "Period" String upon initialization.
 	StorageDirectory string
@@ -25,13 +27,29 @@ type MonitorContext struct {
 	Client     *http.Client
 }
 
+func (c *MonitorContext) SaveAccusations() error{
+	err:= util.WriteData(c.StorageDirectory+"/"+c.StorageFile_accusations, c.HasAccused)
+	return err
+}
+
+func (c *MonitorContext) SavePoMs() error{
+	err:= util.WriteData(c.StorageDirectory+"/"+c.StorageFile_PoMs, c.HasPom)
+	return err
+}
+
 func (c *MonitorContext) SaveStorage() error {
 	storageList := []gossip.Gossip_object{}
 	for _, gossipObject := range *c.Storage {
 		storageList = append(storageList, gossipObject)
 	}
-	err := util.WriteData(c.StorageFile, storageList)
+	err := util.WriteData(c.StorageDirectory+"/"+c.StorageFile, storageList)
 	return err
+}
+
+func (c *MonitorContext) Saveall(){
+	c.SaveStorage()
+	c.SaveAccusations()
+	c.SavePoMs()
 }
 
 func (c *MonitorContext) LoadStorage() error {
