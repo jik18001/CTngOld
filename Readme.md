@@ -46,6 +46,27 @@ Monitors are responsible for the "FakeCAs" and "FakeLoggers" (see those folders 
 * 3 - logger1, logger3, CA1, CA3
 * 4 - logger2, CA2, CA3
 
+# Gossiper Network Test
+
+These folders specify a test network of four gossipers.
+
+
+### Connections
+Gossiper Connections are as follows:
+* 1 - 2,3
+* 2 - 3,4
+* 3 - 4,1
+* 4 - 1,2
+
+Each Gossiper connects to the corresponding monitor number in 
+monitorNetworkTest:
+* 1-1
+* 2-2
+* 3-3
+* 4-4
+
+These servers are intended to provide a local test of all running components. The gossiper network can also be tested without monitors, although data must be sent manually + appropriately utilizing `client_test.go` to push data into gossiper 3.
+
 The `testData` folder contains configurations for testing, but configs can be generated using the functions in `config`.
 
 
