@@ -35,7 +35,7 @@ To run on WSL2:
 
 **`a CA`**:  sh CATest.sh [Certificate Authority ID]  
 
-# Monitor Network Configuration
+# Monitor Network
 
 Each monitor number is connected to its corresponding gossiper number
 
@@ -46,11 +46,7 @@ Monitors are responsible for the "FakeCAs" and "FakeLoggers" (see those folders 
 * 3 - logger1, logger3, CA1, CA3
 * 4 - logger2, CA2, CA3
 
-# Gossiper Network Test
-
-These folders specify a test network of four gossipers.
-
-
+# Gossiper Network  
 ### Connections
 Gossiper Connections are as follows:
 * 1 - 2,3
