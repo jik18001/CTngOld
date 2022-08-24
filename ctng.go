@@ -63,7 +63,9 @@ func main() {
 			Config:      &conf,
 			Storage:     storage,
 			StorageFile: "monitor_data.json",
+			StorageID:   os.Args[5],
 			HasPom:      make(map[string]bool),
+			HasAccused:  make(map[string]bool),
 		}
 		ctx.Config = &conf
 		server.StartMonitorServer(&ctx)

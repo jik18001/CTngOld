@@ -164,7 +164,7 @@ func handle_gossip(c *monitor.MonitorContext, w http.ResponseWriter, r *http.Req
 }
 
 func InitializeMonitorStorage(c *monitor.MonitorContext){
-	c.StorageDirectory = "testData/monitordata"
+	c.StorageDirectory = "testData/monitordata/"+c.StorageID+"/"
 	c.StorageFile = "monitor_data.json"
 	c.StorageFile_accusations = "accusations.json"
 	c.StorageFile_PoMs = "PoMs.json"

@@ -17,6 +17,7 @@ type MonitorContext struct {
 	// TODO: Utilize Storage directory: A folder for the files of each MMD.
 	// Folder should be set to the current MMD "Period" String upon initialization.
 	StorageDirectory string
+	StorageID string
 
 	// The below could be used to prevent a Monitor from sending duplicate Accusations,
 	// Currently, if a monitor accuses two entities in the same Period, it will trigger a gossip PoM.
@@ -32,9 +33,33 @@ func (c *MonitorContext) SaveAccusations() error{
 	return err
 }
 
+func (c *MonitorContext) LoadAccusations() error{
+	bytes, err := util.ReadByte(c.StorageFile_accusations)
+	if err != nil {
+		return err
+	}
+	err = json.Unmarshal(bytes, &c.HasAccused)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func (c *MonitorContext) SavePoMs() error{
 	err:= util.WriteData(c.StorageDirectory+"/"+c.StorageFile_PoMs, c.HasPom)
 	return err
+}
+
+func (c *MonitorContext) LoadPoMs() error{
+	bytes, err := util.ReadByte(c.StorageFile_PoMs)
+	if err != nil {
+		return err
+	}
+	err = json.Unmarshal(bytes, &c.HasPom)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (c *MonitorContext) SaveStorage() error {
