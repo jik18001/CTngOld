@@ -1,4 +1,5 @@
-# Next Generation Certificate Transparency: No Longer Updating, I'm still working on this repo, but I'm change a lot of the design, this is just here as a backup file in case I want to restore some functionalities
+# Next Generation Certificate Transparency:
+No Longer Updating, I'm still working on this repo, but I'm changing a lot of the design, this is just here as a backup file in case I want to restore some functionalities
 
 ## Folders:
 
